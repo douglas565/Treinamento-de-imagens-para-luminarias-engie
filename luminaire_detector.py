@@ -1,8 +1,8 @@
 """
-Sistema de Detecção de Luminárias - 100% Offline
+Sistema de Detecção de Luminárias
 Identifica modelo e potência (Watts) de luminárias a partir de imagens
 Sem uso de APIs ou modelos de IA externos
-Autor: Sistema de Visão Computacional
+Autor: Douglas Ramos
 Data: 2025
 """
 
@@ -44,7 +44,7 @@ class ProcessingResult:
 
 class LuminaireDetector:
     """
-    Sistema principal de detecção de luminárias - 100% Offline
+    Sistema principal de detecção de luminárias
     Pipeline: Detecção -> OCR -> Pattern Matching -> Estimativa de Potência
     """
     
@@ -646,7 +646,7 @@ def main():
         
         # Exibir resultado no console
         print("\n" + "="*60)
-        print("RESULTADO DA DETECÇÃO (100% OFFLINE)")
+        print("RESULTADO DA DETECÇÃO")
         print("="*60)
         print(f"Imagem: {result.image_id}")
         print(f"Tempo: {result.processing_time_ms}ms")
