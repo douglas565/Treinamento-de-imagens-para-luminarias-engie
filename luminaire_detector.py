@@ -57,34 +57,59 @@ class LuminaireDetector:
         """
         # Tabela de referência modelo -> potência
         self.model_power_reference = {
-            'LUXA200': 24,
-            'LUXA150': 18,
-            'LUXA100': 12,
-            'LUXB300': 36,
-            'LUXB250': 30,
-            'LUXB200': 24,
-            'LUXC150': 18,
-            'LUXC100': 12,
-            'PHILIPS-T8': 18,
-            'PHILIPS-LED': 24,
-            'OSRAM-LED': 24,
-            'GE-BASIC': 16,
-            'INTRAL': 18,
-            'LUMINUS': 24
+            'Pallas': 23,
+            'Pallas': 33,
+            'Pallas': 47,
+            'Pallas': 60,
+            'Pallas': 75,
+            'Pallas': 90,
+            'Pallas': 110,
+            'Pallas': 130,
+            'Pallas': 155,
+            'Pallas': 200,
+            'HBMI': 50,
+            'HBMI': 75,
+            'HBMI': 100,
+            'HBMI': 150,
+            'HBMI': 200,
+            'HBMI': 50,
+            'HBMI': 75,
+            'HBMI': 100,
+            'HBMI': 150,
+            'HBMI': 200,
+            'ORI': 50,
+            'IESNA': 20,
+            'IESNA': 40,
+            'IESNA': 65,
+            'IESNA': 85,
+            'HTC': 22,
+            'HTC': 30,
+            'HTC': 40,
+            'HTC': 50,
+            'HTC': 60,
+            'HTC': 70,
+            'HTC': 80,
+            'HTC': 100,
+            'HTC': 120
+
         }
         
         # Variações de nome de modelos
         self.model_variations = {
-            'LUX200': 'LUXA200',
-            'LUXA-200': 'LUXA200',
-            'LUX 200': 'LUXA200',
-            'LUX150': 'LUXA150',
-            'LUXA-150': 'LUXA150',
-            'LUX 150': 'LUXA150',
-            'PHILIPS T8': 'PHILIPS-T8',
-            'PHILIPST8': 'PHILIPS-T8',
-            'OSRAM LED': 'OSRAM-LED',
-            'OSRAMLED': 'OSRAM-LED',
+            'KING SUN': 'KINGSUN',
+            'BRIGHT LUX': 'BRIGHTLUX',
+            'SAN LIGHT': 'SANLIGHT',
+            'H B M I': 'HBMI',
+            'H.T.C': 'HTC'
+        }
+
+        self.valid_powers = {
+            'PALLAS': [23, 33, 47, 60, 75, 90, 110, 130, 155, 200],
+            'KINGSUN': [23, 33, 47, 60, 75, 90, 110, 130, 155, 200],
+            'HBMI': [50, 75, 100, 150, 200],
+            'ORI': [50],
+            'IESNA': [20, 40, 65, 85],
+            'HTC': [22, 30, 40, 50, 60, 70, 80, 100, 120]
         }
         
         # Características visuais conhecidas de modelos (para classificação sem IA)
@@ -309,15 +334,10 @@ class LuminaireDetector:
         
         # Padrões para encontrar modelos
         patterns = [
-            r'LUXA?\d+',          
-            r'LUXB?\d+',          
-            r'LUXC?\d+',          
-            r'PHILIPS[- ]?T\d+',  
-            r'PHILIPS[- ]?LED',  
-            r'OSRAM[- ]?LED',     
-            r'GE[- ]?BASIC',      
-            r'INTRAL',            
-            r'LUMINUS',           
+            r'KINGSUN', r'PALLAS',      # Fabricante / Modelo
+            r'BRIGHTLUX', r'HBMI', r'ORI', r'HTC',
+            r'SANLIGHT', r'IESNA',
+            r'LUXA?\d+', r'PHILIPS'           
         ]
         
         for pattern in patterns:
@@ -326,14 +346,23 @@ class LuminaireDetector:
                 model = match.group(0).replace(' ', '-')
                 
                 # Normalizar usando variações conhecidas
-                if model in self.model_variations:
-                    model = self.model_variations[model]
+                # Verifica se a string encontrada está nas variações
+                for key, value in self.model_variations.items():
+                    if key in model:
+                        model = value
+                        break
                 
+                # Se encontrou o fabricante (ex: KINGSUN), tentamos ser mais específicos
+                # Se o texto tem "PALLAS", preferimos "PALLAS" a "KINGSUN"
+                if "PALLAS" in text_upper: return "PALLAS"
+                if "HBMI" in text_upper: return "HBMI"
+                if "HTC" in text_upper: return "HTC"
+                if "IESNA" in text_upper: return "IESNA"
+                if "ORI" in text_upper: return "ORI"
+
                 logger.info(f"Modelo extraído do OCR: {model}")
                 return model
-        
-        return None
-    
+            return None
     def calculate_visual_features(self, image: np.ndarray, bbox: Tuple[int, int, int, int]) -> Dict:
         """
         Calcula características visuais da luminária para classificação sem IA
