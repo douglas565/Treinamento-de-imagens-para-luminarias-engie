@@ -272,10 +272,10 @@ class LuminaireDetector:
         """
         # Padrões de regex para encontrar potência
         patterns = [
-            r'(\d+\.?\d*)\s*kW',              # Ex: 1.5kW, 2 kW
-            r'(\d+\.?\d*)\s*W(?:atts?)?',     # Ex: 24W, 18 Watts
-            r'(\d+\.?\d*)\s*w',                # Ex: 24w (minúscula)
-            r'(\d+)\s*[-/]\s*(\d+)\s*W',      # Ex: 18-24W (pegar primeiro)
+            r'(\d+\.?\d*)\s*kW',              
+            r'(\d+\.?\d*)\s*W(?:atts?)?',     
+            r'(\d+\.?\d*)\s*w',                
+            r'(\d+)\s*[-/]\s*(\d+)\s*W',     
         ]
         
         for pattern in patterns:
@@ -309,15 +309,15 @@ class LuminaireDetector:
         
         # Padrões para encontrar modelos
         patterns = [
-            r'LUXA?\d+',          # Ex: LUXA200, LUX200
-            r'LUXB?\d+',          # Ex: LUXB300
-            r'LUXC?\d+',          # Ex: LUXC150
-            r'PHILIPS[- ]?T\d+',  # Ex: PHILIPS-T8, PHILIPS T8
-            r'PHILIPS[- ]?LED',   # Ex: PHILIPS-LED
-            r'OSRAM[- ]?LED',     # Ex: OSRAM-LED
-            r'GE[- ]?BASIC',      # Ex: GE-BASIC
-            r'INTRAL',            # Ex: INTRAL
-            r'LUMINUS',           # Ex: LUMINUS
+            r'LUXA?\d+',          
+            r'LUXB?\d+',          
+            r'LUXC?\d+',          
+            r'PHILIPS[- ]?T\d+',  
+            r'PHILIPS[- ]?LED',  
+            r'OSRAM[- ]?LED',     
+            r'GE[- ]?BASIC',      
+            r'INTRAL',            
+            r'LUMINUS',           
         ]
         
         for pattern in patterns:
@@ -454,7 +454,7 @@ class LuminaireDetector:
                 logger.info(f"Classificação visual: {best_model} (confiança: {confidence:.2f})")
                 return best_model, confidence
         
-        # Fallback: usar modelo mais comum como default
+        
         default_model = list(self.model_power_reference.keys())[0]
         logger.info(f"Classificação visual falhou, usando default: {default_model}")
         return default_model, 0.3

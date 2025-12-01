@@ -54,7 +54,7 @@ async def root():
         "name": "Luminaire Detection API (Offline)",
         "version": "2.0.0",
         "status": "online",
-        "mode": "100% offline - sem APIs externas",
+        "mode": " offline - sem APIs externas",
         "methods": [
             "OCR com Tesseract",
             "Pattern matching",
