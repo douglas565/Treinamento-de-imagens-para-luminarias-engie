@@ -1,0 +1,27 @@
+# Dependências principais
+opencv-python==4.8.1.78
+numpy==1.24.3
+pytesseract==0.3.10
+Pillow==10.1.0
+torch==2.1.0
+torchvision==0.16.0
+
+# Para modelos avançados (opcional)
+ultralytics==8.0.196  # YOLOv8
+transformers==4.35.0  # Para CLIP/ViT
+timm==0.9.7  # Biblioteca de modelos de visão
+
+# Utilitários
+pandas==2.1.3
+matplotlib==3.8.2
+seaborn==0.13.0
+tqdm==4.66.1
+
+# API e Web (opcional)
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+
+# Testes
+pytest==7.4.3
+pytest-cov==4.1.0
